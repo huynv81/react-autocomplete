@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import "./Autocomplete.css";
 import { getRandomId } from "../../utils";
+import "./Autocomplete.css";
 
 export default function Autocomplete({
   suggestions,
@@ -13,25 +13,26 @@ export default function Autocomplete({
 }) {
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
   const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
+
   const input = useRef();
 
   useEffect(() => {
     input.current.value = value;
   }, [value]);
 
-  // Event fired when the input value is changed
   const handleChange = useCallback(
     e => {
-      const { value } = e.currentTarget;
+      const { value: userInput } = e.currentTarget;
+      input.current.value = userInput;
       setActiveSuggestionIndex(0);
       setShouldShowSuggestions(!!suggestions && !!suggestions.length);
-      if (!value) {
-        onClearSuggestions();
+      if (userInput) {
+        onChange(userInput);
       } else {
-        onChange(value);
+        onClearSuggestions();
       }
     },
-    [onChange, suggestions, onClearSuggestions]
+    [onClearSuggestions, onChange, suggestions]
   );
 
   const handleClick = useCallback(
