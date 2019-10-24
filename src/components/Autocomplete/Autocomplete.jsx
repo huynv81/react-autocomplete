@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import "./Autocomplete.css";
+import { getRandomId } from "../../utils";
 
 export default function Autocomplete({
   suggestions,
@@ -14,6 +15,10 @@ export default function Autocomplete({
   const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
   const input = useRef();
 
+  useEffect(() => {
+    input.current.value = value;
+  }, [value]);
+
   // Event fired when the input value is changed
   const handleChange = useCallback(
     e => {
@@ -22,8 +27,9 @@ export default function Autocomplete({
       setShouldShowSuggestions(!!suggestions && !!suggestions.length);
       if (!value) {
         onClearSuggestions();
+      } else {
+        onChange(value);
       }
-      onChange(value);
     },
     [onChange, suggestions, onClearSuggestions]
   );
@@ -31,7 +37,6 @@ export default function Autocomplete({
   const handleClick = useCallback(
     e => {
       setShouldShowSuggestions(false);
-      input.current.value = e.currentTarget.innerText;
       onSuggestionSelected(activeSuggestionIndex);
       setActiveSuggestionIndex(0);
     },
@@ -44,7 +49,6 @@ export default function Autocomplete({
         onSuggestionSelected(activeSuggestionIndex);
         setActiveSuggestionIndex(0);
         setShouldShowSuggestions(false);
-        input.current.value = suggestions[activeSuggestionIndex];
       } else if (e.key === "ArrowUp") {
         if (activeSuggestionIndex === 0) {
           return;
@@ -79,10 +83,11 @@ export default function Autocomplete({
                   className={
                     index === activeSuggestionIndex ? "suggestion-active" : ""
                   }
-                  key={suggestion}
+                  key={getRandomId()}
                   onClick={handleClick}
                 >
-                  {renderSuggestion ? renderSuggestion(suggestion) : suggestion}
+                  {(renderSuggestion && renderSuggestion(suggestion)) ||
+                    suggestion}
                 </li>
               ))}
             </ul>
