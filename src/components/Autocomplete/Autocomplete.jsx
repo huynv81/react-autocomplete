@@ -2,57 +2,62 @@ import React, { useState, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import "./Autocomplete.css";
 
-export default function Autocomplete({ suggestions, value }) {
+export default function Autocomplete({
+  suggestions,
+  renderSuggestion,
+  value,
+  onChange,
+  onSuggestionSelected,
+  onClearSuggestions
+}) {
   const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
-  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
   const [shouldShowSuggestions, setShouldShowSuggestions] = useState(false);
-  const [userInput, setUserInput] = useState(value);
   const input = useRef();
 
   // Event fired when the input value is changed
   const handleChange = useCallback(
     e => {
       const { value } = e.currentTarget;
-
-      const valueMatches = suggestions.filter(
-        s => s.toLowerCase().indexOf(value.toLowerCase()) > -1
-      );
-
       setActiveSuggestionIndex(0);
-      setFilteredSuggestions(valueMatches);
-      setShouldShowSuggestions(true);
-      setUserInput(value);
+      setShouldShowSuggestions(!!suggestions && !!suggestions.length);
+      if (!value) {
+        onClearSuggestions();
+      }
+      onChange(value);
     },
-    [suggestions]
+    [onChange, suggestions, onClearSuggestions]
   );
 
-  const handleClick = useCallback(e => {
-    setActiveSuggestionIndex(0);
-    setFilteredSuggestions([]);
-    setShouldShowSuggestions(false);
-    setUserInput(e.currentTarget.innerText);
-    input.current.value = e.currentTarget.innerText;
-  }, []);
+  const handleClick = useCallback(
+    e => {
+      setShouldShowSuggestions(false);
+      input.current.value = e.currentTarget.innerText;
+      onSuggestionSelected(activeSuggestionIndex);
+      setActiveSuggestionIndex(0);
+    },
+    [onSuggestionSelected, activeSuggestionIndex]
+  );
 
   const handleKeyDown = useCallback(
     e => {
       if (e.key === "Enter") {
+        onSuggestionSelected(activeSuggestionIndex);
         setActiveSuggestionIndex(0);
         setShouldShowSuggestions(false);
-        input.current.value = filteredSuggestions[activeSuggestionIndex];
+        input.current.value = suggestions[activeSuggestionIndex];
       } else if (e.key === "ArrowUp") {
         if (activeSuggestionIndex === 0) {
           return;
         }
         setActiveSuggestionIndex(activeSuggestionIndex - 1);
       } else if (e.key === "ArrowDown") {
-        if (activeSuggestionIndex - 1 === filteredSuggestions.length) {
+        if (activeSuggestionIndex - 1 === suggestions.length) {
           return;
         }
         setActiveSuggestionIndex(activeSuggestionIndex + 1);
       }
     },
-    [filteredSuggestions, activeSuggestionIndex]
+    [suggestions, activeSuggestionIndex, onSuggestionSelected]
   );
 
   return (
@@ -62,14 +67,14 @@ export default function Autocomplete({ suggestions, value }) {
         className="autoComplete"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        defaultValue={userInput}
+        defaultValue={value}
         ref={input}
       />
-      {shouldShowSuggestions && !!userInput && (
+      {shouldShowSuggestions && (
         <React.Fragment>
-          {!!filteredSuggestions.length ? (
+          {!!suggestions.length ? (
             <ul className="suggestions">
-              {filteredSuggestions.map((suggestion, index) => (
+              {suggestions.map((suggestion, index) => (
                 <li
                   className={
                     index === activeSuggestionIndex ? "suggestion-active" : ""
@@ -77,7 +82,7 @@ export default function Autocomplete({ suggestions, value }) {
                   key={suggestion}
                   onClick={handleClick}
                 >
-                  {suggestion}
+                  {renderSuggestion ? renderSuggestion(suggestion) : suggestion}
                 </li>
               ))}
             </ul>
@@ -93,24 +98,19 @@ export default function Autocomplete({ suggestions, value }) {
 }
 
 Autocomplete.propTypes = {
-  suggestions: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.shape(), PropTypes.string, PropTypes.number])
-  ),
-  value: PropTypes.string
+  suggestions: PropTypes.arrayOf(PropTypes.node),
+  renderSuggestion: PropTypes.func,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  onSuggestionSelected: PropTypes.func,
+  onClearSuggestions: PropTypes.func
 };
 
 Autocomplete.defaultProps = {
-  suggestions: [
-    "Alligator",
-    "Bask",
-    "Crocodilian",
-    "Death Roll",
-    "Eggs",
-    "Jaws",
-    "Reptile",
-    "Solitary",
-    "Tail",
-    "Wetlands"
-  ],
-  value: undefined
+  suggestions: [],
+  renderSuggestion: undefined,
+  value: undefined,
+  onChange: () => {},
+  onSuggestionSelected: () => {},
+  onClearSuggestions: () => {}
 };
