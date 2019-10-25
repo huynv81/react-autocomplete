@@ -1,4 +1,4 @@
-export const AUTOCOMPLETE_SUGGESTIONS = [
+export const AUTOCOMPLETE_OPTIONS = [
   "Alligator",
   "Bask",
   "Crocodilian",
