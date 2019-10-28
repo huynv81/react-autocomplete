@@ -13,6 +13,7 @@ function getRandomId(length = 8) {
   return randomId;
 }
 
+/** The regular HTML input extended to support autocomplete options displayed as user types */
 export default function Autocomplete({
   options,
   value,
@@ -53,15 +54,19 @@ export default function Autocomplete({
     [onSelectOption]
   );
 
+  // Keyboard events support
   const handleKeyDown = useCallback(
     e => {
       if (["Enter", "ArrowUp", "ArrowDown", "Esc"].includes(e.key)) {
         if (e.key === "Enter") {
+          // Enter key pressed: An option was selected by user using keyboard
           setShouldShowDropdownOptions(false);
           onSelectOption(options[selectedOptionIndex]);
           inputInstance.current.value = options[selectedOptionIndex].text;
           setSelectedOptionIndex(0);
         } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+          // if Up arrow key is pressed and already no options were selected
+          // or Down arrow was clicked and last option was selected then return
           if (
             (e.key === "ArrowUp" && selectedOptionIndex === 0) ||
             (e.key === "ArrowDown" &&
@@ -69,11 +74,15 @@ export default function Autocomplete({
           ) {
             return;
           }
+
+          // Select appropriate autocomplete option depending on which arrow key was used
           const targetIndex =
             e.key === "ArrowUp"
               ? selectedOptionIndex - 1
               : selectedOptionIndex + 1;
           setSelectedOptionIndex(targetIndex);
+
+          // focus the element
           const targetOption = document.getElementById(
             `autocompleteOption${targetIndex}`
           );
@@ -81,6 +90,7 @@ export default function Autocomplete({
             targetOption.focus();
           }
         } else {
+          // ESC key was pressed
           onClearOptions();
         }
       }
@@ -88,16 +98,19 @@ export default function Autocomplete({
     [options, selectedOptionIndex, onSelectOption, onClearOptions]
   );
 
+  // If in loading state, reset selection option index
   useEffect(() => {
     if (loading) {
       setSelectedOptionIndex(0);
     }
   }, [loading]);
 
+  // when dropdown options are received, determine if autocomplete options can be shown or not
   useEffect(() => {
     setShouldShowDropdownOptions(options.length);
   }, [options]);
 
+  // Set input value when the value received by the component changes
   useEffect(() => {
     inputInstance.current.value = value;
   }, [value]);
@@ -130,7 +143,7 @@ export default function Autocomplete({
           !!inputInstance.current.value && (
             <ul className="options" role="listbox">
               {options.map((option, index) => (
-                <React.Fragment key={getRandomId()}>
+                <React.Fragment key={option.value || getRandomId()}>
                   <li
                     id={`autocompleteOption${index}`}
                     className={`option ${
@@ -157,6 +170,7 @@ export default function Autocomplete({
 }
 
 Autocomplete.propTypes = {
+  /** Options to display as autocomplete dropdown suggestions */
   options: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -164,10 +178,15 @@ Autocomplete.propTypes = {
       render: PropTypes.func
     })
   ),
+  /** Indicates the data is being fetched when autocomplete options need to come from API call */
   loading: PropTypes.bool,
+  /** Value to set in input */
   value: PropTypes.string,
+  /** Callback that should be invoked as soon as input value changes */
   onChange: PropTypes.func,
+  /** Callback that should be invoked when one of the autocomplete dropdown option is chosen */
   onSelectOption: PropTypes.func,
+  /** Callback that should be invoked when ESC key is clicked while displaying autocomplete suggestions */
   onClearOptions: PropTypes.func
 };
 
