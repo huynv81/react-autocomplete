@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from "react";
-import Autocomplete from "../../src";
-import { AUTOCOMPLETE_OPTIONS } from "../constants";
+import React, { useState, useCallback } from 'react';
+import Autocomplete from '../../src';
+import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
 const SIMPLE_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
   text: option,
@@ -8,7 +8,7 @@ const SIMPLE_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
 }));
 
 export default function SimpleExample() {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [visibleOptions, setVisibleOptions] = useState();
 
   const handleChange = useCallback(value => {
@@ -21,7 +21,7 @@ export default function SimpleExample() {
   }, []);
 
   const handleClearOptions = useCallback(() => {
-    setValue("");
+    setValue('');
     setVisibleOptions(SIMPLE_AUTOCOMPLETE_OPTIONS);
   }, []);
 

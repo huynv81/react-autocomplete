@@ -1,12 +1,13 @@
-import React, { useState, useCallback } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAtom } from "@fortawesome/free-solid-svg-icons/faAtom";
-import Autocomplete from "../../src";
-import { AUTOCOMPLETE_OPTIONS } from "../constants";
+import React, { useState, useCallback } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAtom } from '@fortawesome/free-solid-svg-icons/faAtom';
+import Autocomplete from '../../src';
+import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
 const COMPLEX_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
   text: option,
   value: option,
+  // eslint-disable-next-line react/display-name
   render: o => (
     <p>
       <FontAwesomeIcon icon={faAtom} />
@@ -19,7 +20,7 @@ const COMPLEX_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
 export default function ComplexExample() {
   const [visibleOptions, setVisibleOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [userInput, setUserInput] = useState("");
+  const [userInput, setUserInput] = useState('');
 
   const handleChange = useCallback(value => {
     setUserInput(value);
@@ -36,7 +37,7 @@ export default function ComplexExample() {
 
   const handleClearOptions = useCallback(() => {
     setVisibleOptions([]);
-    setUserInput("");
+    setUserInput('');
   }, []);
 
   const handleSelectOption = useCallback(({ text }) => {

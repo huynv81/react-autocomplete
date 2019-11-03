@@ -1,7 +1,7 @@
-import React from "react";
-import SimpleExample from "../SimpleExample";
-import ComplexExample from "../ComplexExample";
-import "./App.css";
+import React from 'react';
+import SimpleExample from '../SimpleExample';
+import ComplexExample from '../ComplexExample';
+import './App.css';
 
 export default function App() {
   return (

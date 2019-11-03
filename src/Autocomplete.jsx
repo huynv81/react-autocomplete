@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinner } from "@fortawesome/free-solid-svg-icons/faSpinner";
-import "./Autocomplete.css";
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
+import './Autocomplete.css';
 
 function getRandomId(length = 8) {
-  const input = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz";
-  let randomId = "";
+  const input = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';
+  let randomId = '';
   for (var i = 0; i < length; i++) {
     randomId += input[Math.floor(Math.random() * input.length)];
   }
@@ -24,22 +24,23 @@ export default function Autocomplete({
   ...rest
 }) {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
-  const [shouldShowDropdownOptions, setShouldShowDropdownOptions] = useState(
-    false
-  );
+  const [shouldShowDropdownOptions, setShouldShowDropdownOptions] = useState(false);
+  const [visibleOptions, setVisibleOptions] = useState(options);
+
   const inputInstance = useRef();
 
   const handleChange = useCallback(
     e => {
-      const { value: inputValue } = e.currentTarget;
+      const { value: inputValue } = e.target;
+      inputInstance.current.value = inputValue;
+      setSelectedOptionIndex(0);
+      setVisibleOptions(options.filter(o => o.text.toLowerCase().includes(inputValue.toLowerCase())));
+      setShouldShowDropdownOptions(!!options.length);
       if (inputValue) {
         onChange(inputValue);
       } else {
         onClearOptions();
       }
-      inputInstance.current.value = inputValue;
-      setSelectedOptionIndex(0);
-      setShouldShowDropdownOptions(!!options.length);
     },
     [onClearOptions, onChange, options]
   );
@@ -57,19 +58,19 @@ export default function Autocomplete({
   // Keyboard events support
   const handleKeyDown = useCallback(
     e => {
-      if (["Enter", "ArrowUp", "ArrowDown", "Esc"].includes(e.key)) {
-        if (e.key === "Enter") {
+      if (['Enter', 'ArrowUp', 'ArrowDown', 'Esc'].includes(e.key)) {
+        if (e.key === 'Enter') {
           // Enter key pressed: An option was selected by user using keyboard
           setShouldShowDropdownOptions(false);
           onSelectOption(options[selectedOptionIndex]);
           inputInstance.current.value = options[selectedOptionIndex].text;
           setSelectedOptionIndex(0);
-        } else if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+        } else if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
           // if Up arrow key is pressed and already no options were selected
           // or Down arrow was clicked and last option was selected then return
           if (
-            (e.key === "ArrowUp" && selectedOptionIndex === 0) ||
-            (e.key === "ArrowDown" &&
+            (e.key === 'ArrowUp' && selectedOptionIndex === 0) ||
+            (e.key === 'ArrowDown' &&
               selectedOptionIndex - 1 === options.length)
           ) {
             return;
@@ -77,7 +78,7 @@ export default function Autocomplete({
 
           // Select appropriate autocomplete option depending on which arrow key was used
           const targetIndex =
-            e.key === "ArrowUp"
+            e.key === 'ArrowUp'
               ? selectedOptionIndex - 1
               : selectedOptionIndex + 1;
           setSelectedOptionIndex(targetIndex);
@@ -108,11 +109,18 @@ export default function Autocomplete({
   // when dropdown options are received, determine if autocomplete options can be shown or not
   useEffect(() => {
     setShouldShowDropdownOptions(options.length);
+    setVisibleOptions(options);
   }, [options]);
 
   // Set input value when the value received by the component changes
   useEffect(() => {
-    inputInstance.current.value = value;
+    if (inputInstance && inputInstance.current) {
+      inputInstance.current.value = value;
+    }
+
+    if (value) {
+      setVisibleOptions(options.filter(o => o.text.toLowerCase().includes(value.toLowerCase())));
+    }
   }, [value]);
 
   return (
@@ -127,7 +135,7 @@ export default function Autocomplete({
         {...rest}
       />
       <div
-        className={`dropdownOptions ${shouldShowDropdownOptions ? "open" : ""}`}
+        className={`dropdownOptions ${shouldShowDropdownOptions ? 'open' : ''}`}
       >
         {loading ? (
           <ul className="options" role="listbox">
@@ -139,15 +147,15 @@ export default function Autocomplete({
             </li>
           </ul>
         ) : (
-          !!options.length &&
-          !!inputInstance.current.value && (
+          !!visibleOptions.length &&
+          !!(inputInstance && inputInstance.current && inputInstance.current.value) && (
             <ul className="options" role="listbox">
-              {options.map((option, index) => (
+              {visibleOptions.map((option, index) => (
                 <React.Fragment key={option.value || getRandomId()}>
                   <li
                     id={`autocompleteOption${index}`}
                     className={`option ${
-                      index === selectedOptionIndex ? "selected" : ""
+                      index === selectedOptionIndex ? 'selected' : ''
                     }`}
                     role="option"
                     aria-selected={index === selectedOptionIndex}
