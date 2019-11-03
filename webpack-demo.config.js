@@ -13,7 +13,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'demo/index.js'),
   output: {
     filename: 'react-autocomplete.js',
-    path: path.resolve(__dirname, 'dist-demo'),
+    path: path.resolve(__dirname, 'dist/demo'),
   },
   module: {
     rules: [
