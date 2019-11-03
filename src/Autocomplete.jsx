@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import './Autocomplete.css';
 
 function getRandomId(length = 8) {
@@ -21,6 +19,7 @@ export default function Autocomplete({
   onSelectOption,
   onClearOptions,
   loading,
+  loadingIcon,
   ...rest
 }) {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -140,10 +139,7 @@ export default function Autocomplete({
         {loading ? (
           <ul className="options" role="listbox">
             <li role="option" aria-selected={false}>
-              <FontAwesomeIcon
-                icon={faSpinner}
-                className="fas fa-spinner fa-spin"
-              />
+              {loadingIcon}
             </li>
           </ul>
         ) : (
@@ -188,6 +184,8 @@ Autocomplete.propTypes = {
   ),
   /** Indicates the data is being fetched when autocomplete options need to come from API call */
   loading: PropTypes.bool,
+  /** Loading icon to show, takes a string or jsx */
+  loadingIcon: PropTypes.node,
   /** Value to set in input */
   value: PropTypes.string,
   /** Callback that should be invoked as soon as input value changes */
@@ -201,6 +199,7 @@ Autocomplete.propTypes = {
 Autocomplete.defaultProps = {
   options: [],
   loading: false,
+  loadingIcon: 'Loading...',
   value: undefined,
   onChange: () => {},
   onSelectOption: () => {},

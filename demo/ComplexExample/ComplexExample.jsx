@@ -1,6 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAtom } from '@fortawesome/free-solid-svg-icons/faAtom';
 import Autocomplete from '../../src';
 import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
@@ -9,11 +7,7 @@ const COMPLEX_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
   value: option,
   // eslint-disable-next-line react/display-name
   render: o => (
-    <p>
-      <FontAwesomeIcon icon={faAtom} />
-      &nbsp;
-      {o.text}
-    </p>
+    <p>{o.text}</p>
   )
 }));
 
