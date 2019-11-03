@@ -2,7 +2,19 @@
 
 React Autocomplete made with hooks
 
+## Setup
+
+```
+$ npm i @dhruv-m-patel/react-autocomplete -S
+```
+
+## Demo
+
+See this package in action: https://reactautocomplete.herokuapp.com/
+
 ## Simple Usage
+
+Import the package using `import Autocomplete from '@dhruv-m-patel/react-autocomplete';`.
 
 ```jsx
 <Autocomplete
