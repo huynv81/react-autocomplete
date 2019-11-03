@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Autocomplete from '../../src';
+import ReactAutocomplete from '../../src';
 import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
 const SIMPLE_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
@@ -30,7 +30,7 @@ export default function SimpleExample() {
   }, []);
 
   return (
-    <Autocomplete
+    <ReactAutocomplete
       options={visibleOptions}
       onChange={handleChange}
       onClearOptions={handleClearOptions}

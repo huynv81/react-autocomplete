@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './Autocomplete.css';
+import './react-autocomplete.css';
 
 function getRandomId(length = 8) {
   const input = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';
@@ -12,7 +12,7 @@ function getRandomId(length = 8) {
 }
 
 /** The regular HTML input extended to support autocomplete options displayed as user types */
-export default function Autocomplete({
+export default function ReactAutocomplete({
   options,
   value,
   onChange,
@@ -173,7 +173,7 @@ export default function Autocomplete({
   );
 }
 
-Autocomplete.propTypes = {
+ReactAutocomplete.propTypes = {
   /** Options to display as autocomplete dropdown suggestions */
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -196,7 +196,7 @@ Autocomplete.propTypes = {
   onClearOptions: PropTypes.func
 };
 
-Autocomplete.defaultProps = {
+ReactAutocomplete.defaultProps = {
   options: [],
   loading: false,
   loadingIcon: 'Loading...',

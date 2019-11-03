@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Autocomplete from '../../src';
+import ReactAutocomplete from '../../src';
 import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
 const COMPLEX_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
@@ -39,7 +39,7 @@ export default function ComplexExample() {
   }, []);
 
   return (
-    <Autocomplete
+    <ReactAutocomplete
       loading={isLoading}
       onChange={handleChange}
       onClearOptions={handleClearOptions}
