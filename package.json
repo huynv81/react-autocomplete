@@ -1,5 +1,5 @@
 {
-  "name": "react-autocomplete",
+  "name": "@dhruv-m-patel/react-autocomplete",
   "version": "1.0.0",
   "description": "An autocomplete component built with react",
   "author": "Dhruv Patel <https://github.com/dhruv-m-patel>",
@@ -10,9 +10,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/dhruv-m-patel/react-autocomplete"
+    "url": "https://github.com/dhruv-m-patel/react-autocomplete.git"
   },
-  "main": "dist/react-autocomplete.js",
+  "main": "dist-demo/react-autocomplete.js",
   "module": "dist/react-autocomplete.js",
   "license": "MIT",
   "dependencies": {
@@ -84,6 +84,13 @@
     "lint": "npm run lint:js && npm run lint:css",
     "pretest": "jest --clearCache",
     "test": "jest",
-    "ci:test": "jest --updateSnapshot --coverage"
+    "ci:test": "jest --updateSnapshot --coverage",
+    "publish:component": "NODE_ENV=production npm run build && npm publish --access public"
+  },
+  "bugs": {
+    "url": "https://github.com/dhruv-m-patel/react-autocomplete/issues"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
