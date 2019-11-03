@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Autocomplete it should render 1`] = `
+Array [
+  <input
+    className="autoComplete"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    type="text"
+  />,
+  <div
+    className="dropdownOptions "
+  />,
+]
+`;
+
+exports[`Autocomplete it should render with loading state 1`] = `
+Array [
+  <input
+    className="autoComplete"
+    onChange={[Function]}
+    onKeyDown={[Function]}
+    type="text"
+  />,
+  <div
+    className="dropdownOptions open"
+  >
+    <ul
+      className="options"
+      role="listbox"
+    >
+      <li
+        aria-selected={false}
+        role="option"
+      >
+        Loading...
+      </li>
+    </ul>
+  </div>,
+]
+`;

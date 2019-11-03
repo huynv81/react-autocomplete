@@ -1,5 +1,5 @@
 import Tester from '../Tester';
-import Autocomplete from '../../src/Autocomplete';
+import ReactAutocomplete from '../../src/react-autocomplete';
 import { AUTOCOMPLETE_OPTIONS } from '../../demo/constants';
 
 const tester = new Tester();
@@ -9,7 +9,7 @@ const autocompleteOptions = AUTOCOMPLETE_OPTIONS.map(o => ({ text: o, value: o }
 describe('Autocomplete', () => {
   test('it should render', () => {
     const snapshot = tester.getSnapshot(
-      Autocomplete,
+      ReactAutocomplete,
       { options: [] },
     );
     expect(snapshot).toMatchSnapshot();
@@ -17,7 +17,7 @@ describe('Autocomplete', () => {
 
   test('it should render with loading state', () => {
     const snapshot = tester.getSnapshot(
-      Autocomplete,
+      ReactAutocomplete,
       { options: autocompleteOptions, loading: true },
     );
     expect(snapshot).toMatchSnapshot();
@@ -27,7 +27,7 @@ describe('Autocomplete', () => {
     const mockCallback = jest.fn();
     const testValue = 'Bas';
     const { component } = tester.getMountedInstance(
-      Autocomplete,
+      ReactAutocomplete,
       { options: autocompleteOptions, onChange: mockCallback },
     );
 
@@ -43,7 +43,7 @@ describe('Autocomplete', () => {
     const mockCallback = jest.fn();
 
     const { component } = tester.getMountedInstance(
-      Autocomplete,
+      ReactAutocomplete,
       { options: autocompleteOptions, onSelectOption: mockCallback },
     );
 
@@ -60,7 +60,7 @@ describe('Autocomplete', () => {
     const mockCallback = jest.fn();
 
     const { component } = tester.getMountedInstance(
-      Autocomplete,
+      ReactAutocomplete,
       { options: autocompleteOptions, onClearOptions: mockCallback },
     );
 

@@ -1,8 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
-import './Autocomplete.css';
+import './react-autocomplete.css';
 
 function getRandomId(length = 8) {
   const input = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';
@@ -14,13 +12,14 @@ function getRandomId(length = 8) {
 }
 
 /** The regular HTML input extended to support autocomplete options displayed as user types */
-export default function Autocomplete({
+export default function ReactAutocomplete({
   options,
   value,
   onChange,
   onSelectOption,
   onClearOptions,
   loading,
+  loadingIcon,
   ...rest
 }) {
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
@@ -140,10 +139,7 @@ export default function Autocomplete({
         {loading ? (
           <ul className="options" role="listbox">
             <li role="option" aria-selected={false}>
-              <FontAwesomeIcon
-                icon={faSpinner}
-                className="fas fa-spinner fa-spin"
-              />
+              {loadingIcon}
             </li>
           </ul>
         ) : (
@@ -177,7 +173,7 @@ export default function Autocomplete({
   );
 }
 
-Autocomplete.propTypes = {
+ReactAutocomplete.propTypes = {
   /** Options to display as autocomplete dropdown suggestions */
   options: PropTypes.arrayOf(
     PropTypes.shape({
@@ -188,6 +184,8 @@ Autocomplete.propTypes = {
   ),
   /** Indicates the data is being fetched when autocomplete options need to come from API call */
   loading: PropTypes.bool,
+  /** Loading icon to show, takes a string or jsx */
+  loadingIcon: PropTypes.node,
   /** Value to set in input */
   value: PropTypes.string,
   /** Callback that should be invoked as soon as input value changes */
@@ -198,9 +196,10 @@ Autocomplete.propTypes = {
   onClearOptions: PropTypes.func
 };
 
-Autocomplete.defaultProps = {
+ReactAutocomplete.defaultProps = {
   options: [],
   loading: false,
+  loadingIcon: 'Loading...',
   value: undefined,
   onChange: () => {},
   onSelectOption: () => {},
