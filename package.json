@@ -15,11 +15,6 @@
   "main": "dist/node/react-autocomplete.js",
   "module": "dist/webpack/react-autocomplete.js",
   "license": "MIT",
-  "dependencies": {
-    "prop-types": "15.7.2",
-    "react": "16.11.0",
-    "react-dom": "16.11.0"
-  },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
@@ -59,6 +54,9 @@
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
+    "prop-types": "15.7.2",
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
     "react-router-dom": "^5.0.1",
     "react-test-renderer": "^16.11.0",
     "rimraf": "^3.0.0",
@@ -92,5 +90,9 @@
   },
   "directories": {
     "test": "tests"
+  },
+  "peerDependencies": {
+    "react": ">= 16.8",
+    "react-dom": ">= 16.8"
   }
 }
