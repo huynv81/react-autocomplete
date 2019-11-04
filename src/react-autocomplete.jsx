@@ -13,6 +13,7 @@ function getRandomId(length = 8) {
 
 /** The regular HTML input extended to support autocomplete options displayed as user types */
 export default function ReactAutocomplete({
+  className,
   options,
   value,
   onChange,
@@ -28,75 +29,66 @@ export default function ReactAutocomplete({
 
   const inputInstance = useRef();
 
-  const handleChange = useCallback(
-    e => {
-      const { value: inputValue } = e.target;
-      inputInstance.current.value = inputValue;
-      setSelectedOptionIndex(0);
-      setVisibleOptions(options.filter(o => o.text.toLowerCase().includes(inputValue.toLowerCase())));
-      setShouldShowDropdownOptions(!!options.length);
-      if (inputValue) {
-        onChange(inputValue);
-      } else {
-        onClearOptions();
-      }
-    },
-    [onClearOptions, onChange, options]
-  );
+  const handleChange = useCallback((e) => {
+    const { value: inputValue } = e.target;
+    inputInstance.current.value = inputValue;
+    setSelectedOptionIndex(0);
+    setVisibleOptions(options.filter(o => o.text.toLowerCase().includes(inputValue.toLowerCase())));
+    setShouldShowDropdownOptions(!!options.length);
+    if (inputValue) {
+      onChange(inputValue);
+    } else {
+      onClearOptions();
+    }
+  }, [onClearOptions, onChange, options]);
 
-  const handleClick = useCallback(
-    option => {
-      setShouldShowDropdownOptions(false);
-      onSelectOption(option);
-      inputInstance.current.value = option.text;
-      setSelectedOptionIndex(0);
-    },
-    [onSelectOption]
-  );
+  const handleClick = useCallback((option) => {
+    setShouldShowDropdownOptions(false);
+    onSelectOption(option);
+    inputInstance.current.value = option.text;
+    setSelectedOptionIndex(0);
+  }, [onSelectOption]);
 
   // Keyboard events support
-  const handleKeyDown = useCallback(
-    e => {
-      if (['Enter', 'ArrowUp', 'ArrowDown', 'Esc'].includes(e.key)) {
-        if (e.key === 'Enter') {
-          // Enter key pressed: An option was selected by user using keyboard
-          setShouldShowDropdownOptions(false);
-          onSelectOption(options[selectedOptionIndex]);
-          inputInstance.current.value = options[selectedOptionIndex].text;
-          setSelectedOptionIndex(0);
-        } else if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
-          // if Up arrow key is pressed and already no options were selected
-          // or Down arrow was clicked and last option was selected then return
-          if (
-            (e.key === 'ArrowUp' && selectedOptionIndex === 0) ||
-            (e.key === 'ArrowDown' &&
-              selectedOptionIndex - 1 === options.length)
-          ) {
-            return;
-          }
-
-          // Select appropriate autocomplete option depending on which arrow key was used
-          const targetIndex =
-            e.key === 'ArrowUp'
-              ? selectedOptionIndex - 1
-              : selectedOptionIndex + 1;
-          setSelectedOptionIndex(targetIndex);
-
-          // focus the element
-          const targetOption = document.getElementById(
-            `autocompleteOption${targetIndex}`
-          );
-          if (targetOption) {
-            targetOption.focus();
-          }
-        } else {
-          // ESC key was pressed
-          onClearOptions();
+  const handleKeyDown = useCallback((e) => {
+    if (['Enter', 'ArrowUp', 'ArrowDown', 'Esc'].includes(e.key)) {
+      if (e.key === 'Enter') {
+        // Enter key pressed: An option was selected by user using keyboard
+        setShouldShowDropdownOptions(false);
+        onSelectOption(options[selectedOptionIndex]);
+        inputInstance.current.value = options[selectedOptionIndex].text;
+        setSelectedOptionIndex(0);
+      } else if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+        // if Up arrow key is pressed and already no options were selected
+        // or Down arrow was clicked and last option was selected then return
+        if (
+          (e.key === 'ArrowUp' && selectedOptionIndex === 0) ||
+          (e.key === 'ArrowDown' &&
+            selectedOptionIndex - 1 === options.length)
+        ) {
+          return;
         }
+
+        // Select appropriate autocomplete option depending on which arrow key was used
+        const targetIndex =
+          e.key === 'ArrowUp'
+            ? selectedOptionIndex - 1
+            : selectedOptionIndex + 1;
+        setSelectedOptionIndex(targetIndex);
+
+        // focus the element
+        const targetOption = document.getElementById(
+          `autocompleteOption${targetIndex}`
+        );
+        if (targetOption) {
+          targetOption.focus();
+        }
+      } else {
+        // ESC key was pressed
+        onClearOptions();
       }
-    },
-    [options, selectedOptionIndex, onSelectOption, onClearOptions]
-  );
+    }
+  }, [options, selectedOptionIndex, onSelectOption, onClearOptions]);
 
   // If in loading state, reset selection option index
   useEffect(() => {
@@ -122,20 +114,23 @@ export default function ReactAutocomplete({
     }
   }, [value]);
 
+  const classNames = ['autoComplete'];
+  if (className) {
+    classNames.push(className);
+  }
+
   return (
     <React.Fragment>
       <input
         type="text"
-        className="autoComplete"
+        className={classNames.join(' ')}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
         defaultValue={value}
         ref={inputInstance}
         {...rest}
       />
-      <div
-        className={`dropdownOptions ${shouldShowDropdownOptions ? 'open' : ''}`}
-      >
+      <div className={`dropdownOptions ${shouldShowDropdownOptions ? 'open' : ''}`}>
         {loading ? (
           <ul className="options" role="listbox">
             <li role="option" aria-selected={false}>
@@ -150,15 +145,11 @@ export default function ReactAutocomplete({
                 <React.Fragment key={option.value || getRandomId()}>
                   <li
                     id={`autocompleteOption${index}`}
-                    className={`option ${
-                      index === selectedOptionIndex ? 'selected' : ''
-                    }`}
+                    className={`option ${index === selectedOptionIndex ? 'selected' : ''}`}
                     role="option"
                     aria-selected={index === selectedOptionIndex}
                     onKeyDown={handleKeyDown}
-                    onClick={() => {
-                      handleClick(option);
-                    }}
+                    onClick={() => { handleClick(option); }}
                   >
                     {option.render ? option.render(option) : option.text}
                   </li>
@@ -174,6 +165,8 @@ export default function ReactAutocomplete({
 }
 
 ReactAutocomplete.propTypes = {
+  /** additional class name to apply to autocomplete input */
+  className: PropTypes.string,
   /** Options to display as autocomplete dropdown suggestions */
   options: PropTypes.arrayOf(
     PropTypes.shape({

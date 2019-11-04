@@ -12,8 +12,7 @@
     "type": "git",
     "url": "https://github.com/dhruv-m-patel/react-autocomplete.git"
   },
-  "main": "dist/node/react-autocomplete.js",
-  "module": "dist/webpack/react-autocomplete.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.6.4",
@@ -70,10 +69,9 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build:component:node": "cross-env BABEL_ENV=react-module babel src --out-dir dist/node",
-    "build:component:webpack": "NODE_ENV=production webpack --config=webpack.config.js",
+    "transpile": "babel src --out-dir dist --copy-files",
     "build:component": "npm run build:component:webpack && npm run build:component:node",
-    "build:demo": "babel ./src --out-dir dist/demo/src && babel ./demo --out-dir dist/demo/demo && webpack --config=webpack-demo.config.js",
+    "build:demo": "babel ./src --out-dir dist/demo/src && babel ./demo --out-dir dist/demo/demo && webpack",
     "build": "npm run build:demo && npm run build:component",
     "start": "node ./dist/demo/demo/server.js",
     "lint:js": "eslint src/**/*.js && eslint src/**/*.jsx && eslint demo/**/*.js && eslint demo/**/*.jsx",
@@ -83,7 +81,7 @@
     "pretest": "jest --clearCache",
     "test": "jest",
     "ci:test": "jest --updateSnapshot --coverage",
-    "publish:component": "NODE_ENV=production npm run build && npm publish --access public"
+    "publish:component": "NODE_ENV=production npm run transpile && npm publish --access public"
   },
   "bugs": {
     "url": "https://github.com/dhruv-m-patel/react-autocomplete/issues"
@@ -92,7 +90,7 @@
     "test": "tests"
   },
   "peerDependencies": {
-    "react": ">= 16.8",
-    "react-dom": ">= 16.8"
+    "react": "^16.8.0",
+    "react-dom": "^16.8.0"
   }
 }

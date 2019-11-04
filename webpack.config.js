@@ -10,10 +10,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV || 'production',
-  entry: path.resolve(__dirname, 'src/index.js'),
+  entry: path.resolve(__dirname, 'demo/index.js'),
   output: {
     filename: 'react-autocomplete.js',
-    path: path.resolve(__dirname, 'dist/webpack'),
+    path: path.resolve(__dirname, 'dist/demo'),
   },
   module: {
     rules: [
