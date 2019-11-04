@@ -70,9 +70,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "transpile": "babel src --out-dir dist --copy-files",
-    "build:component": "webpack",
-    "build:demo": "babel ./src --out-dir dist/demo/src && babel ./demo --out-dir dist/demo/demo",
-    "build": "npm run build:demo && npm run build:component",
+    "build": "babel ./src --out-dir dist/demo/src --copy-files && babel ./demo --out-dir dist/demo/demo && webpack",
     "start": "node ./dist/demo/demo/server.js",
     "lint:js": "eslint src/**/*.js && eslint src/**/*.jsx && eslint demo/**/*.js && eslint demo/**/*.jsx",
     "lint:css": "stylelint \"./src/**/*.css\"",
@@ -81,7 +79,7 @@
     "pretest": "jest --clearCache",
     "test": "jest",
     "ci:test": "jest --updateSnapshot --coverage",
-    "publish:component": "NODE_ENV=production npm run transpile && npm publish --access public"
+    "publish:component": "NODE_ENV=production npm run clean && npm run transpile && npm publish --access public"
   },
   "bugs": {
     "url": "https://github.com/dhruv-m-patel/react-autocomplete/issues"
