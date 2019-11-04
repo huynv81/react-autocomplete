@@ -70,8 +70,8 @@
   "scripts": {
     "clean": "rimraf dist",
     "transpile": "babel src --out-dir dist --copy-files",
-    "build:component": "npm run build:component:webpack && npm run build:component:node",
-    "build:demo": "babel ./src --out-dir dist/demo/src && babel ./demo --out-dir dist/demo/demo && webpack",
+    "build:component": "webpack",
+    "build:demo": "babel ./src --out-dir dist/demo/src && babel ./demo --out-dir dist/demo/demo",
     "build": "npm run build:demo && npm run build:component",
     "start": "node ./dist/demo/demo/server.js",
     "lint:js": "eslint src/**/*.js && eslint src/**/*.jsx && eslint demo/**/*.js && eslint demo/**/*.jsx",
