@@ -18,14 +18,14 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build:demo": "cd demo && npm run build && cd ..",
+    "build:demo": "cd demo && npm run build",
     "build": "BABEL_ENV=production babel src --out-dir dist --copy-files && npm run build:demo",
     "start": "cd demo && node ./dist/demo/app/server.js",
     "pretest": "jest --clearCache",
     "test": "jest",
     "ci:test": "jest --updateSnapshot --coverage",
     "publish:component": "BABEL_ENV=production npm run build && npm publish --access public",
-    "postinstall": "cd demo && npm install && cd .."
+    "postinstall": "cd demo && npm install"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
