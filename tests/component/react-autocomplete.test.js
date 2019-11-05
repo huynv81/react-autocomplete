@@ -1,10 +1,20 @@
 import Tester from '../Tester';
 import ReactAutocomplete from '../../src/react-autocomplete';
-import { AUTOCOMPLETE_OPTIONS } from '../../demo/constants';
 
 const tester = new Tester();
 
-const autocompleteOptions = AUTOCOMPLETE_OPTIONS.map(o => ({ text: o, value: o }));
+const autocompleteOptions = [
+  'Alligator',
+  'Bask',
+  'Crocodilian',
+  'Death Roll',
+  'Eggs',
+  'Jaws',
+  'Reptile',
+  'Solitary',
+  'Tail',
+  'Wetlands'
+].map(o => ({ text: o, value: o }));
 
 describe('Autocomplete', () => {
   test('it should render', () => {
