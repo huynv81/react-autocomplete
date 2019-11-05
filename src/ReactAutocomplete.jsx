@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import './react-autocomplete.css';
+import './ReactAutocomplete.css';
 
 function getRandomId(length = 8) {
   const input = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz';

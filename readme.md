@@ -8,17 +8,15 @@ React Autocomplete made with hooks
 $ npm i @dhruv-m-patel/react-autocomplete -S
 ```
 
-## Demo
-
-See this package in action: https://reactautocomplete.herokuapp.com/
-
 ## Simple Usage
 
 Import the package using `import Autocomplete from '@dhruv-m-patel/react-autocomplete';`.
+Import css using `import '/node_mobules/@dhruv-m-patel/react-autocomplete/dist/ReactAutocomplete.css';`
 
 ```jsx
-<Autocomplete
+<ReactAutocomplete
   options={[{ text: "option 1", value: 1 }, { text: "option 2", value: 2 }]}
+  className="additionalClassYouWantToApply"
   value={1}
   onChange={handleChange} // Provides user types string back to consumer
   onSelectOption={handleSelectOption} // Provides user selected option object back to consumer
@@ -29,7 +27,7 @@ Import the package using `import Autocomplete from '@dhruv-m-patel/react-autocom
 ## With JSX options
 
 ```jsx
-<Autocomplete
+<ReactAutocomplete
   options={[
     { text: "option 1", value: "option 1", render: jsxFn },
     { text: "option 2", value: "option 2", render: jsxFn }
