@@ -10,10 +10,10 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV || 'production',
-  entry: path.resolve(__dirname, 'demo/index.js'),
+  entry: path.resolve(__dirname, 'src/index.js'),
   output: {
-    filename: 'react-autocomplete.js',
-    path: path.resolve(__dirname, 'dist/demo'),
+    filename: 'demo.bundle.js',
+    path: path.resolve(__dirname, 'dist'),
   },
   module: {
     rules: [
@@ -60,7 +60,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'react-autocomplete.css',
+      filename: 'demo.bundle.css',
     }),
   ],
   optimization: {
@@ -78,5 +78,5 @@ module.exports = {
   performance: {
     maxAssetSize: 200000, // in bytes
     hints: false,
-  },
+  }
 };

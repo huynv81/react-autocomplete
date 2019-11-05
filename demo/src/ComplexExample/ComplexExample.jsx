@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import ReactAutocomplete from '../../src';
+import ReactAutocomplete from '../../../src';
 import { AUTOCOMPLETE_OPTIONS } from '../constants';
 
 const COMPLEX_AUTOCOMPLETE_OPTIONS = AUTOCOMPLETE_OPTIONS.map(option => ({
