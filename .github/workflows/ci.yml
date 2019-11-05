@@ -11,8 +11,6 @@ jobs:
         node-version: '10.x'
     - name: Install packages
       run: npm install
-    - name: Lint Code
-      run: npm run lint
     - name: Build app
       run: npm run build
     - name: Run tests
