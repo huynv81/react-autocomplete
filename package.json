@@ -1,6 +1,6 @@
 {
   "name": "@dhruv-m-patel/react-autocomplete",
-  "version": "1.0.6",
+  "version": "1.0.5",
   "description": "An autocomplete component built with react",
   "author": "Dhruv Patel <https://github.com/dhruv-m-patel>",
   "homepage": "https://github.com/dhruv-m-patel/react-autocomplete",
@@ -26,6 +26,9 @@
     "@babel/preset-react": "^7.6.3",
     "@babel/runtime": "^7.5.5",
     "babel-jest": "^24.9.0",
+    "@babel/plugin-transform-react-inline-elements": "^7.2.0",
+    "babel-plugin-css-modules-transform": "^1.6.2",
+    "babel-plugin-macros": "^2.6.1",
     "babel-preset-minify": "^0.5.1",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",

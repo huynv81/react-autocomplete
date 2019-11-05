@@ -8,6 +8,9 @@ module.exports = {
     'minify',
   ],
   plugins: [
-    '@babel/transform-runtime'
+    '@babel/transform-runtime',
+    'babel-plugin-css-modules-transform',
+    '@babel/plugin-transform-react-inline-elements',
+    'babel-plugin-macros'
   ]
 };

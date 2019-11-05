@@ -1,5 +1,5 @@
 import Tester from '../Tester';
-import ReactAutocomplete from '../../src/react-autocomplete';
+import ReactAutocomplete from '../../src';
 
 const tester = new Tester();
 
