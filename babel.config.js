@@ -5,7 +5,6 @@ module.exports = {
       exclude: ['transform-regenerator'],
     }],
     '@babel/preset-react',
-    'minify',
   ],
   plugins: [
     '@babel/transform-runtime',
