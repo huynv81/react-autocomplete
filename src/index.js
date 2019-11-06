@@ -1,1 +1,1 @@
-export { default } from './react-autocomplete';
+export { default } from './ReactAutocomplete';
